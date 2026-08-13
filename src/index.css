@@ -1,0 +1,307 @@
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  /* Clean Light Theme SCADA Palette */
+  --bg-app: #f8fafc;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f1f5f9;
+  --bg-card-expanded: #ffffff;
+  --bg-panel: #ffffff;
+  --bg-panel-header: #f1f5f9;
+  --bg-lcd: #f8fafc;
+  
+  /* Light Theme Borders */
+  --border-subtle: #e2e8f0;
+  --border-medium: #cbd5e1;
+  --border-bright: #94a3b8;
+  --border-lcd: #cbd5e1;
+
+  /* Industrial Status Color Tokens (Light Mode High Contrast) */
+  --status-ok: #15803d;
+  --status-ok-bg: #f0fdf4;
+  --status-ok-border: #bbf7d0;
+
+  --status-warn: #b45309;
+  --status-warn-bg: #fffbeb;
+  --status-warn-border: #fde68a;
+
+  --status-crit: #b91c1c;
+  --status-crit-bg: #fef2f2;
+  --status-crit-border: #fca5a5;
+
+  --status-info: #0369a1;
+  --status-info-bg: #f0f9ff;
+  --status-info-border: #bae6fd;
+
+  --acoustic-cyan: #0284c7;
+
+  /* Typography */
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-header: 'Chakra Petch', sans-serif;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+
+  /* Text Colors */
+  --text-main: #1e293b;
+  --text-muted: #64748b;
+  --text-dim: #94a3b8;
+  --text-bright: #0f172a;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  background-color: var(--bg-app);
+  color: var(--text-main);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Typography Classes */
+.font-mono { font-family: var(--font-mono); }
+.font-header { font-family: var(--font-header); letter-spacing: 0.04em; text-transform: uppercase; }
+.font-sans { font-family: var(--font-sans); }
+
+/* Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-app);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-medium);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-bright);
+}
+
+/* Status Lamp LED */
+.scada-led {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+.scada-led-ok {
+  background-color: #16a34a;
+  box-shadow: 0 0 6px rgba(22, 163, 74, 0.4);
+}
+.scada-led-warn {
+  background-color: #d97706;
+  box-shadow: 0 0 6px rgba(217, 119, 6, 0.4);
+}
+.scada-led-crit {
+  background-color: #dc2626;
+  box-shadow: 0 0 8px rgba(220, 38, 38, 0.6);
+  animation: scada-led-blink 1s infinite ease-in-out;
+}
+
+@keyframes scada-led-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* SCADA Tags & Badges */
+.scada-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border: 1px solid transparent;
+}
+.scada-tag-ok {
+  background: var(--status-ok-bg);
+  color: var(--status-ok);
+  border-color: var(--status-ok-border);
+}
+.scada-tag-warn {
+  background: var(--status-warn-bg);
+  color: var(--status-warn);
+  border-color: var(--status-warn-border);
+}
+.scada-tag-crit {
+  background: var(--status-crit-bg);
+  color: var(--status-crit);
+  border-color: var(--status-crit-border);
+}
+
+/* Inset Digital LCD Readout Box (Light Mode) */
+.scada-lcd-box {
+  background: #ffffff;
+  border: 1px solid var(--border-medium);
+  border-radius: 4px;
+  padding: 6px 10px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+}
+
+/* Light Theme Tactile Button */
+.scada-btn {
+  background: #ffffff;
+  color: var(--text-bright);
+  border: 1px solid var(--border-medium);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.scada-btn:hover {
+  background: #f1f5f9;
+  border-color: var(--border-bright);
+  color: #0f172a;
+}
+
+.scada-btn:active {
+  background: #e2e8f0;
+  transform: translateY(1px);
+}
+
+.scada-btn-amber {
+  background: #fffbeb;
+  border-color: var(--status-warn-border);
+  color: #b45309;
+}
+.scada-btn-amber:hover {
+  background: #fef3c7;
+  color: #78350f;
+}
+
+.scada-btn-red {
+  background: #fef2f2;
+  border-color: var(--status-crit-border);
+  color: #b91c1c;
+}
+.scada-btn-red:hover {
+  background: #fee2e2;
+  color: #7f1d1d;
+}
+
+/* Layout Canvas with Generous Spacing */
+.scada-container {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 400px;
+  gap: 24px;
+  padding: 24px;
+  max-width: 1840px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+@media (max-width: 1280px) {
+  .scada-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Light Theme Header Console Bar */
+.scada-header {
+  background: #ffffff;
+  border-bottom: 1px solid var(--border-medium);
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+/* Machine Faceplate Row */
+.machine-row {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 6px;
+  margin-bottom: 10px;
+  transition: all 0.15s ease;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+}
+
+.machine-row:hover {
+  border-color: var(--border-medium);
+  background: var(--bg-card-hover);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.machine-row.is-expanded {
+  border-color: var(--border-bright);
+  background: var(--bg-card-expanded);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+
+/* Tabular Alignment for Machine Faceplate Header (Spacious) */
+.machine-header-tabular {
+  padding: 12px 18px;
+  display: grid;
+  grid-template-columns: 24px 230px 110px 1fr 150px 32px;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+  user-select: none;
+}
+
+@media (max-width: 1024px) {
+  .machine-header-tabular {
+    grid-template-columns: 24px 1fr 100px 32px;
+  }
+  .machine-readouts-grid {
+    display: none !important;
+  }
+}
+
+.machine-expanded-detail {
+  padding: 20px;
+  border-top: 1px solid var(--border-subtle);
+  background: #f8fafc;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+  gap: 18px;
+}
+
+/* Instrument Card Enclosure */
+.instrument-card {
+  background: #ffffff;
+  border: 1px solid var(--border-subtle);
+  border-radius: 6px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
