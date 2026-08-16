@@ -33,10 +33,10 @@ export function MachineRow({ machineMeta, machineState, onTriggerAnomaly }) {
         {/* Machine Name & Details */}
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <span className="font-mono" style={{ fontSize: '0.88rem', fontWeight: 700, color: '#0f172a' }}>
+            <span className="font-mono" style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--text-bright)' }}>
               {machineMeta.id}
             </span>
-            <span style={{ fontSize: '0.88rem', color: '#334155', fontWeight: 600 }}>
+            <span style={{ fontSize: '0.88rem', color: 'var(--text-main)', fontWeight: 600 }}>
               {machineMeta.name}
             </span>
           </div>
@@ -57,7 +57,7 @@ export function MachineRow({ machineMeta, machineState, onTriggerAnomaly }) {
           {machineMeta.sensors.map(sMeta => {
             const val = sensors[sMeta.id];
             const sStatus = evalSensorStatus(sMeta, val);
-            const valColor = sStatus === 'critical' ? '#dc2626' : sStatus === 'warning' ? '#d97706' : '#0f172a';
+            const valColor = sStatus === 'critical' ? 'var(--status-crit)' : sStatus === 'warning' ? 'var(--status-warn)' : 'var(--text-bright)';
 
             return (
               <div key={sMeta.id} className="scada-lcd-box" style={{ minWidth: '105px', padding: '4px 8px' }}>
@@ -76,8 +76,8 @@ export function MachineRow({ machineMeta, machineState, onTriggerAnomaly }) {
         {/* Acoustic Anomaly Score Chip */}
         <div>
           <span className="scada-tag" style={{
-            background: `rgba(${acousticStatus === 'ok' ? '2, 132, 199' : acousticStatus === 'warning' ? '217, 119, 6' : '220, 38, 38'}, 0.1)`,
-            color: acousticStatus === 'ok' ? '#0284c7' : acousticStatus === 'warning' ? '#d97706' : '#dc2626',
+            background: `rgba(${acousticStatus === 'ok' ? '2, 132, 199' : acousticStatus === 'warning' ? '217, 119, 6' : '220, 38, 38'}, 0.12)`,
+            color: acousticStatus === 'ok' ? 'var(--acoustic-cyan)' : acousticStatus === 'warning' ? 'var(--status-warn)' : 'var(--status-crit)',
             borderColor: acousticStatus === 'ok' ? 'rgba(2, 132, 199, 0.4)' : acousticStatus === 'warning' ? 'rgba(217, 119, 6, 0.4)' : 'rgba(220, 38, 38, 0.4)'
           }}>
             ACOUSTIC {acousticScore.toFixed(1)}%

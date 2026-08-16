@@ -28,7 +28,7 @@ export function AlertsSidebar({ alerts = [], onAcknowledgeAlert, onClearAlerts }
     }}>
       {/* Alarm Annunciator Header */}
       <div style={{
-        background: '#f1f5f9',
+        background: 'var(--bg-panel-header)',
         borderBottom: '1px solid var(--border-subtle)',
         padding: '14px 16px',
         display: 'flex',
@@ -37,7 +37,7 @@ export function AlertsSidebar({ alerts = [], onAcknowledgeAlert, onClearAlerts }
       }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <span className="font-header" style={{ fontSize: '0.9rem', fontWeight: 700, color: '#0f172a' }}>
+            <span className="font-header" style={{ fontSize: '0.9rem', fontWeight: 700, color: 'var(--text-bright)' }}>
               REAL-TIME ALARM STREAM
             </span>
           </div>
@@ -76,8 +76,8 @@ export function AlertsSidebar({ alerts = [], onAcknowledgeAlert, onClearAlerts }
                 fontWeight: 600,
                 border: '1px solid',
                 borderColor: filter === fKey ? 'var(--border-bright)' : 'var(--border-subtle)',
-                background: filter === fKey ? '#ffffff' : '#f8fafc',
-                color: filter === fKey ? '#0f172a' : 'var(--text-muted)',
+                background: filter === fKey ? 'var(--bg-card-hover)' : 'var(--bg-lcd)',
+                color: filter === fKey ? 'var(--text-bright)' : 'var(--text-muted)',
                 borderRadius: '4px',
                 cursor: 'pointer',
                 transition: 'all 0.15s'
@@ -115,7 +115,7 @@ export function AlertsSidebar({ alerts = [], onAcknowledgeAlert, onClearAlerts }
 
             const borderCol = isCrit ? 'var(--status-crit-border)' : isWarn ? 'var(--status-warn-border)' : 'var(--status-ok-border)';
             const bgCol = isCrit ? 'var(--status-crit-bg)' : isWarn ? 'var(--status-warn-bg)' : 'var(--status-ok-bg)';
-            const textCol = isCrit ? '#dc2626' : isWarn ? '#d97706' : '#16a34a';
+            const textCol = isCrit ? 'var(--status-crit)' : isWarn ? 'var(--status-warn)' : 'var(--status-ok)';
             const priorityTag = isCrit ? 'P1-CRIT' : isWarn ? 'P2-WARN' : 'INFO';
 
             return (
@@ -133,10 +133,10 @@ export function AlertsSidebar({ alerts = [], onAcknowledgeAlert, onClearAlerts }
                 {/* Header */}
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <span className="scada-tag" style={{ background: '#ffffff', color: textCol, borderColor: borderCol, fontSize: '0.65rem' }}>
+                    <span className="scada-tag" style={{ background: 'var(--bg-card)', color: textCol, borderColor: borderCol, fontSize: '0.65rem' }}>
                       {priorityTag}
                     </span>
-                    <span className="font-mono" style={{ fontSize: '0.82rem', fontWeight: 700, color: '#0f172a' }}>
+                    <span className="font-mono" style={{ fontSize: '0.82rem', fontWeight: 700, color: 'var(--text-bright)' }}>
                       {alert.machineId}
                     </span>
                   </div>

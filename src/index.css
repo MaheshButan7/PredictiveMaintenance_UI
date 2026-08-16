@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap');
 
-:root {
+:root, :root[data-theme="light"] {
   /* Clean Light Theme SCADA Palette */
   --bg-app: #f8fafc;
   --bg-card: #ffffff;
@@ -9,6 +9,8 @@
   --bg-panel: #ffffff;
   --bg-panel-header: #f1f5f9;
   --bg-lcd: #f8fafc;
+  --gauge-bg: #f8fafc;
+  --scope-bg: #0f172a;
   
   /* Light Theme Borders */
   --border-subtle: #e2e8f0;
@@ -47,6 +49,50 @@
   --text-bright: #0f172a;
 }
 
+:root[data-theme="dark"] {
+  /* SCADA Industrial Graphite Dark Base Palette */
+  --bg-app: #0b0e14;
+  --bg-card: #131822;
+  --bg-card-hover: #181f2c;
+  --bg-card-expanded: #11151f;
+  --bg-panel: #141923;
+  --bg-panel-header: #1b2230;
+  --bg-lcd: #070a0f;
+  --gauge-bg: #090d14;
+  --scope-bg: #04070b;
+  
+  /* SCADA Borders */
+  --border-subtle: #202a3a;
+  --border-medium: #2d3b52;
+  --border-bright: #3e506d;
+  --border-lcd: #182232;
+
+  /* Status Colors */
+  --status-ok: #22c55e;
+  --status-ok-bg: rgba(34, 197, 94, 0.12);
+  --status-ok-border: #166534;
+
+  --status-warn: #f59e0b;
+  --status-warn-bg: rgba(245, 158, 11, 0.14);
+  --status-warn-border: #b45309;
+
+  --status-crit: #ef4444;
+  --status-crit-bg: rgba(239, 68, 68, 0.16);
+  --status-crit-border: #991b1b;
+
+  --status-info: #0284c7;
+  --status-info-bg: rgba(2, 132, 199, 0.12);
+  --status-info-border: #0369a1;
+
+  --acoustic-cyan: #06b6d4;
+
+  /* Text Colors */
+  --text-main: #d1d5db;
+  --text-muted: #9ca3af;
+  --text-dim: #6b7280;
+  --text-bright: #f9fafb;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -62,6 +108,7 @@ html, body {
   min-height: 100vh;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 #root {
@@ -102,16 +149,16 @@ html, body {
   flex-shrink: 0;
 }
 .scada-led-ok {
-  background-color: #16a34a;
-  box-shadow: 0 0 6px rgba(22, 163, 74, 0.4);
+  background-color: var(--status-ok);
+  box-shadow: 0 0 6px rgba(34, 197, 94, 0.4);
 }
 .scada-led-warn {
-  background-color: #d97706;
-  box-shadow: 0 0 6px rgba(217, 119, 6, 0.4);
+  background-color: var(--status-warn);
+  box-shadow: 0 0 6px rgba(245, 158, 11, 0.4);
 }
 .scada-led-crit {
-  background-color: #dc2626;
-  box-shadow: 0 0 8px rgba(220, 38, 38, 0.6);
+  background-color: var(--status-crit);
+  box-shadow: 0 0 8px rgba(239, 68, 68, 0.6);
   animation: scada-led-blink 1s infinite ease-in-out;
 }
 
@@ -150,20 +197,19 @@ html, body {
   border-color: var(--status-crit-border);
 }
 
-/* Inset Digital LCD Readout Box (Light Mode) */
+/* Inset Digital LCD Readout Box */
 .scada-lcd-box {
-  background: #ffffff;
+  background: var(--bg-lcd);
   border: 1px solid var(--border-medium);
   border-radius: 4px;
   padding: 6px 10px;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.03);
 }
 
-/* Light Theme Tactile Button */
+/* Tactile Button */
 .scada-btn {
-  background: #ffffff;
+  background: var(--bg-panel);
   color: var(--text-bright);
   border: 1px solid var(--border-medium);
   font-family: var(--font-mono);
@@ -182,37 +228,36 @@ html, body {
 }
 
 .scada-btn:hover {
-  background: #f1f5f9;
+  background: var(--bg-card-hover);
   border-color: var(--border-bright);
-  color: #0f172a;
+  color: var(--text-bright);
 }
 
 .scada-btn:active {
-  background: #e2e8f0;
   transform: translateY(1px);
 }
 
 .scada-btn-amber {
-  background: #fffbeb;
+  background: var(--status-warn-bg);
   border-color: var(--status-warn-border);
-  color: #b45309;
+  color: var(--status-warn);
 }
 .scada-btn-amber:hover {
-  background: #fef3c7;
-  color: #78350f;
+  background: rgba(245, 158, 11, 0.25);
+  color: var(--status-warn);
 }
 
 .scada-btn-red {
-  background: #fef2f2;
+  background: var(--status-crit-bg);
   border-color: var(--status-crit-border);
-  color: #b91c1c;
+  color: var(--status-crit);
 }
 .scada-btn-red:hover {
-  background: #fee2e2;
-  color: #7f1d1d;
+  background: rgba(239, 68, 68, 0.25);
+  color: var(--status-crit);
 }
 
-/* Layout Canvas with Generous Spacing */
+/* Layout Canvas */
 .scada-container {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 400px;
@@ -229,9 +274,9 @@ html, body {
   }
 }
 
-/* Light Theme Header Console Bar */
+/* Header Console Bar */
 .scada-header {
-  background: #ffffff;
+  background: var(--bg-panel);
   border-bottom: 1px solid var(--border-medium);
   padding: 12px 24px;
   display: flex;
@@ -257,7 +302,6 @@ html, body {
 .machine-row:hover {
   border-color: var(--border-medium);
   background: var(--bg-card-hover);
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
 
 .machine-row.is-expanded {
@@ -266,7 +310,7 @@ html, body {
   box-shadow: 0 4px 12px rgba(0,0,0,0.06);
 }
 
-/* Tabular Alignment for Machine Faceplate Header (Spacious) */
+/* Tabular Alignment for Machine Faceplate Header */
 .machine-header-tabular {
   padding: 12px 18px;
   display: grid;
@@ -289,7 +333,7 @@ html, body {
 .machine-expanded-detail {
   padding: 20px;
   border-top: 1px solid var(--border-subtle);
-  background: #f8fafc;
+  background: var(--bg-app);
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
   gap: 18px;
@@ -297,7 +341,7 @@ html, body {
 
 /* Instrument Card Enclosure */
 .instrument-card {
-  background: #ffffff;
+  background: var(--bg-panel);
   border: 1px solid var(--border-subtle);
   border-radius: 6px;
   padding: 14px;

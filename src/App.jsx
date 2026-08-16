@@ -4,12 +4,19 @@ import { initializeFactoryState, tickSimulation } from './services/simulationEng
 import { HeaderBar } from './components/HeaderBar';
 import { UnitCard } from './components/UnitCard';
 import { AlertsSidebar } from './components/AlertsSidebar';
+import { AiChatbotModal } from './components/AiChatbotModal';
 
 export function App() {
   const [machinesState, setMachinesState] = useState(() => initializeFactoryState().machinesState);
   const [alertLogs, setAlertLogs] = useState(() => initializeFactoryState().alertLogs);
   const [isSimulating, setIsSimulating] = useState(true);
+  const [theme, setTheme] = useState('light');
   const pendingAnomalyMachineRef = useRef(null);
+
+  // Synchronize document theme attribute
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
 
   // Simulation tick loop (every 2000 ms)
   useEffect(() => {
@@ -65,6 +72,8 @@ export function App() {
         isSimulating={isSimulating}
         onToggleSim={() => setIsSimulating(!isSimulating)}
         onTriggerGlobalAnomaly={() => handleTriggerAnomaly()}
+        theme={theme}
+        onToggleTheme={() => setTheme(prev => prev === 'light' ? 'dark' : 'light')}
       />
 
       {/* Main Single-Page Content Canvas */}
@@ -75,6 +84,8 @@ export function App() {
             display: 'flex',
             justify: 'space-between',
             alignItems: 'center',
+            flexWrap: 'wrap',
+            gap: '8px',
             marginBottom: '14px',
             padding: '4px 2px'
           }}>
@@ -105,6 +116,13 @@ export function App() {
           />
         </div>
       </main>
+
+      {/* SCADA AI Chatbot Assistant Floating Modal */}
+      <AiChatbotModal
+        factoryUnits={FACTORY_UNITS}
+        machinesState={machinesState}
+        alertLogs={alertLogs}
+      />
     </div>
   );
 }

@@ -28,7 +28,7 @@ export function UnitCard({ unitMeta, machinesState, onTriggerAnomaly }) {
     }}>
       {/* Unit Header Bar */}
       <div style={{
-        background: '#f1f5f9',
+        background: 'var(--bg-panel-header)',
         borderBottom: '1px solid var(--border-subtle)',
         padding: '12px 20px',
         display: 'flex',
@@ -36,7 +36,7 @@ export function UnitCard({ unitMeta, machinesState, onTriggerAnomaly }) {
         alignItems: 'center'
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <span className="font-header" style={{ fontSize: '0.98rem', fontWeight: 700, color: '#0f172a' }}>
+          <span className="font-header" style={{ fontSize: '0.98rem', fontWeight: 700, color: 'var(--text-bright)' }}>
             {unitMeta.name}
           </span>
           <span className="font-mono" style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
