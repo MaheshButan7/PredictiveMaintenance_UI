@@ -73,15 +73,30 @@ export function MachineRow({ machineMeta, machineState, onTriggerAnomaly }) {
           })}
         </div>
 
-        {/* Acoustic Anomaly Score Chip */}
+        {/* Spectral Status Tag (Compact View) */}
         <div>
-          <span className="scada-tag" style={{
-            background: `rgba(${acousticStatus === 'ok' ? '2, 132, 199' : acousticStatus === 'warning' ? '217, 119, 6' : '220, 38, 38'}, 0.12)`,
-            color: acousticStatus === 'ok' ? 'var(--acoustic-cyan)' : acousticStatus === 'warning' ? 'var(--status-warn)' : 'var(--status-crit)',
-            borderColor: acousticStatus === 'ok' ? 'rgba(2, 132, 199, 0.4)' : acousticStatus === 'warning' ? 'rgba(217, 119, 6, 0.4)' : 'rgba(220, 38, 38, 0.4)'
-          }}>
-            ACOUSTIC {acousticScore.toFixed(1)}%
-          </span>
+          {(() => {
+            let specLabel = 'SPECTRUM NOMINAL';
+            if (acousticStatus !== 'ok') {
+              const freqStr = machineMeta.type?.includes('Spindle') || machineMeta.type?.includes('Turbine') 
+                ? '2.4 kHz' 
+                : machineMeta.type?.includes('Valve') || machineMeta.type?.includes('Pump') 
+                  ? '12.0 kHz' 
+                  : '150 Hz';
+              const devDb = Math.round(12 + (acousticScore / 100) * 28);
+              specLabel = `SPECTRUM ${freqStr} +${devDb}dB`;
+            }
+
+            return (
+              <span className="scada-tag" style={{
+                background: `rgba(${acousticStatus === 'ok' ? '2, 132, 199' : acousticStatus === 'warning' ? '217, 119, 6' : '220, 38, 38'}, 0.12)`,
+                color: acousticStatus === 'ok' ? 'var(--acoustic-cyan)' : acousticStatus === 'warning' ? 'var(--status-warn)' : 'var(--status-crit)',
+                borderColor: acousticStatus === 'ok' ? 'rgba(2, 132, 199, 0.4)' : acousticStatus === 'warning' ? 'rgba(217, 119, 6, 0.4)' : 'rgba(220, 38, 38, 0.4)'
+              }}>
+                {specLabel}
+              </span>
+            );
+          })()}
         </div>
 
         {/* Accordion Expand Button */}

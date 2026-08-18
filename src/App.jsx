@@ -7,8 +7,7 @@ import { AlertsSidebar } from './components/AlertsSidebar';
 import { AiChatbotModal } from './components/AiChatbotModal';
 
 export function App() {
-  const [machinesState, setMachinesState] = useState(() => initializeFactoryState().machinesState);
-  const [alertLogs, setAlertLogs] = useState(() => initializeFactoryState().alertLogs);
+  const [simState, setSimState] = useState(() => initializeFactoryState());
   const [isSimulating, setIsSimulating] = useState(true);
   const [theme, setTheme] = useState('light');
   const pendingAnomalyMachineRef = useRef(null);
@@ -26,17 +25,7 @@ export function App() {
       const targetAnomaly = pendingAnomalyMachineRef.current;
       pendingAnomalyMachineRef.current = null; // reset flag
 
-      setMachinesState(prevMachines => {
-        let nextMachines = prevMachines;
-
-        setAlertLogs(prevAlerts => {
-          const result = tickSimulation(prevMachines, prevAlerts, targetAnomaly);
-          nextMachines = result.machinesState;
-          return result.alertLogs;
-        });
-
-        return nextMachines;
-      });
+      setSimState(prev => tickSimulation(prev.machinesState, prev.alertLogs, targetAnomaly));
     }, 2000);
 
     return () => clearInterval(interval);
@@ -55,12 +44,15 @@ export function App() {
 
   // Acknowledge single alert log
   const handleAcknowledgeAlert = (alertId) => {
-    setAlertLogs(prev => prev.map(a => a.id === alertId ? { ...a, acknowledged: true } : a));
+    setSimState(prev => ({
+      ...prev,
+      alertLogs: prev.alertLogs.map(a => a.id === alertId ? { ...a, acknowledged: true } : a)
+    }));
   };
 
   // Clear alerts feed
   const handleClearAlerts = () => {
-    setAlertLogs([]);
+    setSimState(prev => ({ ...prev, alertLogs: [] }));
   };
 
   return (
@@ -68,7 +60,7 @@ export function App() {
       {/* Sticky SCADA Header Bar */}
       <HeaderBar
         factoryUnits={FACTORY_UNITS}
-        machinesState={machinesState}
+        machinesState={simState.machinesState}
         isSimulating={isSimulating}
         onToggleSim={() => setIsSimulating(!isSimulating)}
         onTriggerGlobalAnomaly={() => handleTriggerAnomaly()}
@@ -101,7 +93,7 @@ export function App() {
             <UnitCard
               key={unit.id}
               unitMeta={unit}
-              machinesState={machinesState}
+              machinesState={simState.machinesState}
               onTriggerAnomaly={handleTriggerAnomaly}
             />
           ))}
@@ -110,7 +102,7 @@ export function App() {
         {/* Right Column: Persistent Always-Visible Alerts Panel */}
         <div>
           <AlertsSidebar
-            alerts={alertLogs}
+            alerts={simState.alertLogs}
             onAcknowledgeAlert={handleAcknowledgeAlert}
             onClearAlerts={handleClearAlerts}
           />
@@ -120,8 +112,8 @@ export function App() {
       {/* SCADA AI Chatbot Assistant Floating Modal */}
       <AiChatbotModal
         factoryUnits={FACTORY_UNITS}
-        machinesState={machinesState}
-        alertLogs={alertLogs}
+        machinesState={simState.machinesState}
+        alertLogs={simState.alertLogs}
       />
     </div>
   );

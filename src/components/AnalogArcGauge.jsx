@@ -69,7 +69,7 @@ export function AnalogArcGauge({ sensorMeta, value }) {
 
       {/* Light Dial Housing */}
       <div style={{
-        background: '#f8fafc',
+        background: 'var(--gauge-bg)',
         border: '1px solid var(--border-medium)',
         borderRadius: '4px',
         padding: '8px',
@@ -182,7 +182,7 @@ export function AnalogArcGauge({ sensorMeta, value }) {
         {/* Digital LCD Window */}
         <div className="scada-lcd-box" style={{ marginTop: '-6px', width: '100%', alignItems: 'center' }}>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}>
-            <span className="font-mono" style={{ fontSize: '1.15rem', fontWeight: 700, color: '#0f172a' }}>
+            <span className="font-mono" style={{ fontSize: '1.15rem', fontWeight: 700, color: 'var(--text-bright)' }}>
               {currentVal.toFixed(precision)}
             </span>
             <span className="font-mono" style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
